@@ -21,9 +21,11 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var sensor_global_pos = global_position  # zakładając, że skrypt jest na sensorze
-	var floor_color = get_floor_color(sensor_global_pos)
+	
+	for sensor in sensors:
+		print("sensor ", sensor.name, " : ", sensor.get_color())
 	# Możesz tutaj np. wypisać kolor lub wykorzystać go do sterowania zachowaniem robota:
-	print("Kolor pod sensorem: ", floor_color)
+	
 
 
 # Funkcja, która zwraca kolor piksela pod daną pozycją (globalną)
