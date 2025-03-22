@@ -1,16 +1,17 @@
 [gd_scene load_steps=6 format=3 uid="uid://c0kp0j3ts4sj2"]
 
-[ext_resource type="Script" path="res://scripts/actor.gd" id="1_bph8r"]
+[ext_resource type="Script" path="res://scripts/scripts2D/actor.gd" id="1_bph8r"]
 [ext_resource type="Texture2D" uid="uid://dj05wugrff33l" path="res://data/icon.svg" id="2_nx8l7"]
 [ext_resource type="Texture2D" uid="uid://yesfgt5py4oo" path="res://data/background.png" id="3_b106p"]
-[ext_resource type="Script" path="res://scripts/color_sensor.gd" id="3_c1psh"]
-[ext_resource type="Script" path="res://scripts/free_camera_2d.gd" id="4_5dgth"]
+[ext_resource type="Script" path="res://scripts/scripts2D/color_sensor.gd" id="3_c1psh"]
+[ext_resource type="Script" path="res://scripts/scripts2D/free_camera_2d.gd" id="4_5dgth"]
 
 [node name="Simulation" type="Node2D"]
 
-[node name="Actor" type="Node2D" parent="."]
+[node name="Actor" type="RigidBody2D" parent="."]
 z_index = 2
-position = Vector2(-571, 180)
+position = Vector2(-790, 335)
+gravity_scale = 0.0
 script = ExtResource("1_bph8r")
 
 [node name="Sprite2D" type="Sprite2D" parent="Actor"]
@@ -34,10 +35,10 @@ script = ExtResource("3_c1psh")
 
 [node name="Motors" type="Node2D" parent="Actor"]
 
-[node name="Motor" type="Node2D" parent="Actor/Motors"]
+[node name="Motor" type="RigidBody2D" parent="Actor/Motors"]
 position = Vector2(50, 0)
 
-[node name="Motor2" type="Node2D" parent="Actor/Motors"]
+[node name="Motor2" type="RigidBody2D" parent="Actor/Motors"]
 position = Vector2(-50, 0)
 
 [node name="Environment" type="Node" parent="."]
