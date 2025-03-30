@@ -1,26 +1,55 @@
-extends RigidBody2D
+extends Node2D
 
-@onready var environment 	= get_node("/root/Simulation/Environment")
 @onready var sensors     	= get_node("Sensors").get_children()
-@onready var motors  		= get_node("Motors").get_children()
+@onready var left_motor  	= get_node("Motors").get_node("left_motor")
+@onready var right_motor  	= get_node("Motors").get_node("right_motor")
 
-var background_sprite
-var background_image
-
+var angular_velocity = 0.0
+var forward_velocity = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-		
-	# Pobieramy teksturę tła i jej obraz
-	background_sprite = environment.get_node("./FloorSprite")
-	var texture = background_sprite.texture
-	background_image = texture.get_image()
-	var color1 = background_image.get_pixel(214, 863)
 	pass
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var sensor_global_pos = global_position 
+	handle_input(delta)
+	#for sensor in sensors:
+	#	print("sensor ", sensor.name, " : ", sensor.get_color().get_luminance())
+	pass
 	
-	for sensor in sensors:
-		print("sensor ", sensor.name, " : ", sensor.get_color())
+		
+func _physics_process(delta: float) -> void:
+	move_vehicle(delta)
+
+func handle_input(delta: float) -> void:
+	# Sterowanie lewym kołem (Q - zwiększ, A - zmniejsz)
+	if Input.is_action_pressed("increase_left"):  
+		left_motor.add_velocity(100 * delta)
+	if Input.is_action_pressed("decrease_left"):  
+		left_motor.add_velocity(-100 * delta)
+		
+	# Sterowanie prawym kołem (E - zwiększ, D - zmniejsz)
+	if Input.is_action_pressed("increase_right"):  
+		right_motor.add_velocity(100 * delta)
+	if Input.is_action_pressed("decrease_right"):  
+		right_motor.add_velocity(-100 * delta)
+
+			
+func move_vehicle(delta_t: float) -> void:
+	# left motor position and velocity
+	var lP: Vector2	= left_motor.get_position()
+	var lV: Vector2 = left_motor.get_velocity()
+	# right motor position and velocity
+	var rP: Vector2 = right_motor.get_position()
+	var rV: Vector2 = right_motor.get_velocity()
+	
+	var center_velocity = 	rV + (lV - rV) * rP.length() / (lP - rP).length()
+	
+	var angular_velocity = (lV - center_velocity).cross(lP) / (lP.length() * lP.length())
+	
+	
+	rotate(angular_velocity * delta_t)
+	translate(-center_velocity.rotated(rotation) * delta_t)
+	
