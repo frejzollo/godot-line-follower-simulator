@@ -1,13 +1,19 @@
-extends RigidBody2D
+extends Node2D
 
 class_name Motor
 
+@export var max_abs_velocity 		=  	100.0
+@export var min_abs_velocity 		= 	10.0
+@export var velocity: Vector2	= Vector2(0.0, 0.0)
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func add_velocity(dV: float) -> void:
+	velocity.y += dV
+	if velocity.y > max_abs_velocity:
+		velocity.y = max_abs_velocity
+	elif velocity.y < -max_abs_velocity:
+		velocity.y = -max_abs_velocity
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func get_velocity() -> Vector2:
+	if abs(velocity.y) >= min_abs_velocity:
+		return velocity
+	return Vector2(0.0, 0.0)

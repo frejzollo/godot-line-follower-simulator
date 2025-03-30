@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3 uid="uid://bai1meenh4xs2"]
+
+[ext_resource type="Texture2D" uid="uid://yesfgt5py4oo" path="res://data/background.png" id="1_0qp81"]
+[ext_resource type="Script" path="res://scripts/scripts3D/actor.gd" id="1_r06i2"]
+[ext_resource type="Script" path="res://scripts/scripts3D/color_sensor_3d.gd" id="2_4avd7"]
+[ext_resource type="Script" path="res://scripts/scripts3D/camera.gd" id="2_4runj"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1ga1l"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_i2ubp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7v8ff"]
+size = Vector3(1, 0.10556, 0.587891)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xebto"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_16vdj"]
+height = 0.412278
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_rhnd3"]
+
+[node name="Simulation" type="Node3D"]
+
+[node name="Actor" type="VehicleBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.89622, 3, 3.08757)
+physics_material_override = SubResource("PhysicsMaterial_1ga1l")
+script = ExtResource("1_r06i2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Actor"]
+transform = Transform3D(0.672, 0, 0, 0, 0.1, 0, 0, 0, 0.576, 0, 0, 0)
+mesh = SubResource("BoxMesh_i2ubp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Actor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00483704, -0.000976563)
+shape = SubResource("BoxShape3D_7v8ff")
+
+[node name="VehicleWheel3D" type="VehicleWheel3D" parent="Actor"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Actor/VehicleWheel3D"]
+transform = Transform3D(-4.37114e-08, 0.2, 0, -1, -8.74228e-09, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_xebto")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Actor/VehicleWheel3D"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("CylinderShape3D_16vdj")
+
+[node name="VehicleWheel3D2" type="VehicleWheel3D" parent="Actor"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.5, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Actor/VehicleWheel3D2"]
+transform = Transform3D(-4.37114e-08, 0.2, 0, -1, -8.74228e-09, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_xebto")
+skeleton = NodePath("../../VehicleWheel3D2")
+
+[node name="Sensors" type="Node3D" parent="Actor"]
+
+[node name="Sensor" type="Node3D" parent="Actor/Sensors"]
+script = ExtResource("2_4avd7")
+
+[node name="RayCast3D" type="RayCast3D" parent="Actor/Sensors/Sensor"]
+
+[node name="Camera3D" type="Camera3D" parent="Actor"]
+transform = Transform3D(1, 5.79007e-05, -0.000313667, 0.000138197, 0.807638, 0.589678, 0.000287474, -0.589678, 0.807638, 0, 2, 3)
+script = ExtResource("2_4runj")
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="Area3D" type="StaticBody3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_rhnd3")
+
+[node name="FloorSprite" type="Sprite3D" parent="Environment/Area3D"]
+texture = ExtResource("1_0qp81")
