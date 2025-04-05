@@ -4,20 +4,26 @@ class_name LineSensor
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	read_frequency = 0.1
+	read_frequency = 0.01
 	noise_intensity = 0.01
 	
-	r_weights =	[[1,1,1],
-				 [1,2,1],
-				 [1,1,1]]
+	r_weights =	[[1, 1, 1, 1, 1],
+				 [1, 2, 3, 2, 1],
+				 [1, 3, 5, 3, 1],
+				 [1, 2, 3, 2, 1],
+				 [1, 1, 1, 1, 1]]
 						
-	g_weights =	[[1,1,1],
-				 [1,2,1],
-				 [1,1,1]]
+	g_weights =	[[1, 1, 1, 1, 1],
+				 [1, 2, 3, 2, 1],
+				 [1, 3, 5, 3, 1],
+				 [1, 2, 3, 2, 1],
+				 [1, 1, 1, 1, 1]]
 						
-	b_weights =	[[1,1,1],
-				 [1,2,1],
-				 [1,1,1]]
+	b_weights =	[[1, 1, 1, 1, 1],
+				 [1, 2, 3, 2, 1],
+				 [1, 3, 5, 3, 1],
+				 [1, 2, 3, 2, 1],
+				 [1, 1, 1, 1, 1]]
 	super()
 
 func update_sprite_color() -> void:
