@@ -20,5 +20,7 @@ func _ready():
 				 [1,1,1]]
 	super()
 
-func get_color() -> Color:
-	return current_color
+func update_sprite_color() -> void:
+	$Sprite2D.modulate = Color(	current_color.get_luminance(), 
+								current_color.get_luminance(), 
+								current_color.get_luminance())

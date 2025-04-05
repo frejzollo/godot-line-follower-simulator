@@ -22,7 +22,7 @@ func _ready():
 	
 	# Uruchamiamy cykliczne odczytywanie koloru
 	start_reading()
-
+	
 func start_reading():
 	# Uruchamiamy Timer do cyklicznego odczytu koloru
 	var timer = Timer.new()
@@ -49,7 +49,11 @@ func read_color_from_environment():
 	
 	# Sprawdzamy, czy współrzędne są w zakresie obrazu
 	current_color = get_weighted_average_color(pixel_x, pixel_y)
+	update_sprite_color()
 
+func update_sprite_color() -> void:
+	$Sprite2D.modulate = current_color
+	
 func get_weighted_average_color(x: int, y: int) -> Color:
 	var r = 0.0
 	var g = 0.0
