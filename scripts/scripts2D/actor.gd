@@ -15,8 +15,6 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	handle_input(delta)
-	#for sensor in sensors:
-	#	print("sensor ", sensor.name, " : ", sensor.get_color().get_luminance())
 	pass
 	
 		
@@ -53,3 +51,5 @@ func move_vehicle(delta_t: float) -> void:
 	rotate(angular_velocity * delta_t)
 	translate(-center_velocity.rotated(rotation) * delta_t)
 	
+func get_sensor_value(id: int) -> float:
+	return sensors[id].get_color().get_luminance()
