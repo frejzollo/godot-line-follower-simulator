@@ -6,7 +6,7 @@ extends Node
 @onready var ACTOR = get_parent()
 @export var HISTORY_SIZE 	= 10
 @export var NO_LINE_COUNT  	= 20
-@export var SENSOR_COUNT 	= 5
+@export var SENSOR_COUNT 	= 7
 
 var left_min_speed 		= -50
 var right_min_speed 	= -50
@@ -26,7 +26,7 @@ var sensor_weights = [	12.5,
 # PID variables
 @export var Kp = 1
 @export var Ki = 0.01
-@export var Kd = 0 #0.1;
+@export var Kd = 0.01;
 
 # deklarowanie sterowników PID dla silników
 @onready var pid_left 	= PIDController.new(Kp, Ki, Kd)  	# PID dla lewego silnika
@@ -50,7 +50,7 @@ func read_and_calculate_error():
 	if not line_detected:
 		no_line_count += 1
 		if no_line_count > NO_LINE_COUNT:
-			line_error = find_where_last_line_went() * 50000
+			line_error = find_where_last_line_went()
 	else:
 		no_line_count = 0
 
@@ -74,14 +74,14 @@ func calculate_motor_speed():
 	#print("pid_right output: ", pid_right.output)
 
 func set_motor_speed():
-	var left_speed = 50 + pid_left.output
-	var right_speed = 50 + pid_right.output
+	var left_speed = 150 + pid_left.output
+	var right_speed = 150 + pid_right.output
 
 	ACTOR.left_motor.set_velocity(clamp(left_speed, left_min_speed, left_max_speed))
 	ACTOR.right_motor.set_velocity(clamp(right_speed, right_min_speed, right_max_speed))
 	
 	
-# something like "setup" function in arduino
+# something like "setup" function in Arduino
 func _ready() -> void:
 	sensor_values.resize(SENSOR_COUNT)
 	reading_history.resize(SENSOR_COUNT)
@@ -89,10 +89,8 @@ func _ready() -> void:
 		reading_history[i] = []
 		reading_history[i].resize(HISTORY_SIZE)
 
-	#$Timer.start()
 
-
-# something like "loop" function in arduino
+# something like "loop" function in Arduino
 func _process(delta: float) -> void:
 	read_and_calculate_error()
 	calculate_motor_speed()
