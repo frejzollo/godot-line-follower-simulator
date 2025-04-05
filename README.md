@@ -20,19 +20,11 @@ The main goal of this simulator is to **speed up the development process** by al
   The simulator allows you to tweak how sensors read the environment:
 
   - Adjust **refresh frequency** (how often sensors take new readings)
+  - Configuring the placement of sensors relative to the robot
   - Control how sensors **sample the track** by averaging color values from **neighboring pixels**.
 
 - 🧪 **PID control support**  
   Ready for testing PID control algorithms in real-time with tunable parameters.
-
-- 🧱 Designed with expandability in mind  
-  The project is structured to allow future features such as obstacle detection, map editing, or serial communication emulation.
-
-## 📦 Technologies Used
-
-- [Godot Engine 4.x](https://godotengine.org/)
-- GDScript
-- 2D Physics and Rendering
 
 ## 🚀 Getting Started
 
